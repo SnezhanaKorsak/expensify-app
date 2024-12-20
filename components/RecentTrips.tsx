@@ -1,91 +1,30 @@
-import { FlatList, Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { View } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 
-import { colors } from '../theme';
-import { items } from '../constants';
-import { randomImage } from '../utills';
-import { AddExpenseScreenNavigationProp } from '../navigation/types';
+import { AddExpenseScreenNavigationProp, TripExpensesScreenNavigationProp } from '../navigation/types';
 
-import { EmptyList } from './EmptyList';
+import { CardsList } from './CardsList';
+import { BlockHeader } from './BlockHeader';
 
 export function RecentTrips() {
-  const navigation = useNavigation<AddExpenseScreenNavigationProp>();
+  const navigation = useNavigation<AddExpenseScreenNavigationProp | TripExpensesScreenNavigationProp>();
 
   const emptyListMessage = 'You haven\'t recorded any trips yet';
 
   const redirectToAddExpenseScreen = () => navigation.navigate('AddExpense');
+  const redirectToTripExpensesScreen = () => navigation.navigate('TripExpenses');
 
   return (
     <View>
-      <View style={styles.headerBlock}>
-        <Text style={styles.headerText}>Recent Trips</Text>
-        <TouchableOpacity style={styles.btn} onPress={redirectToAddExpenseScreen}>
-          <Text>Add Trip</Text>
-        </TouchableOpacity>
-      </View>
+      <BlockHeader
+        title="Recent Trips"
+        buttonTitle="Add Trip"
+        buttonHandler={redirectToAddExpenseScreen}
+      />
 
-      <View style={{ height: 500 }}>
-        <FlatList
-          style={{ marginBottom: 20 }}
-          data={items}
-          numColumns={2}
-          keyExtractor={item => item.id.toString()}
-          showsVerticalScrollIndicator={false}
-          columnWrapperStyle={styles.columnWrapperStyle}
-          ListEmptyComponent={<EmptyList message={emptyListMessage} />}
-          renderItem={({ item }) => {
-            const { place, country } = item;
-            return (
-              <TouchableOpacity style={styles.placeContainer}>
-                <View>
-                  <Image source={randomImage()} style={styles.placeImage} />
-                  <Text style={styles.headerText}>{place}</Text>
-                  <Text>{country}</Text>
-                </View>
-              </TouchableOpacity>
-            );
-          }}
-        />
-      </View>
+      <CardsList
+        emptyListMessage={emptyListMessage}
+        redirectHandler={redirectToTripExpensesScreen} />
     </View>
   );
 }
-
-const styles = StyleSheet.create({
-  btn: {
-    paddingVertical: 8,
-    paddingHorizontal: 12,
-    backgroundColor: colors.bgWhite,
-    borderRadius: 15,
-    borderWidth: 1,
-    borderColor: colors.bgGray700,
-  },
-  headerBlock: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center'
-  },
-  headerText: {
-    fontSize: 20,
-    lineHeight: 28,
-    fontWeight: 'bold',
-    maxWidth: 144,
-  },
-  placeImage: {
-    maxWidth: 144,
-    height: 124,
-    marginRight: 8,
-  },
-  placeContainer: {
-    width: '46%',
-    backgroundColor: colors.bgWhite,
-    borderRadius: 15,
-    padding: 12,
-    marginBottom: 12,
-    marginTop: 12,
-    boxShadow: '0 1px 2px 0 rgb(0 0 0 / 0.05)'
-  },
-  columnWrapperStyle: {
-    justifyContent: 'space-between',
-  }
-});

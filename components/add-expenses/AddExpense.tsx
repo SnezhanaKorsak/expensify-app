@@ -13,7 +13,7 @@ import { useNavigation } from '@react-navigation/native';
 import { colors } from '../../theme';
 import { HomeScreenNavigationProp } from '../../navigation/types';
 
-import { Header } from './Header';
+import { ScreenHeader } from '../ScreenHeader';
 
 export function AddExpense() {
   const navigation = useNavigation<HomeScreenNavigationProp>();
@@ -37,7 +37,7 @@ export function AddExpense() {
     <ScrollView>
       <KeyboardAvoidingView behavior="position">
         <View>
-          <Header />
+          <ScreenHeader title="Add Trip" imageBanner={require('../../assets/4.png')} />
           <View>
             <Text style={styles.label}>Where on Earth?</Text>
             <TextInput style={styles.input} value={place} onChangeText={changePlaceHandler} />

@@ -1,22 +1,27 @@
-import { Image, StyleSheet, Text, View } from 'react-native';
+import { Image, ImageSourcePropType, StyleSheet, Text, View } from 'react-native';
 
-import { colors } from '../../theme';
+import { colors } from '../theme';
 
-import { BackButton } from '../BackButton';
+import { BackButton } from './BackButton';
 
-export function Header() {
+type Props = {
+  title: string;
+  imageBanner: ImageSourcePropType;
+}
+
+export function ScreenHeader({ title, imageBanner }: Props) {
   return (
     <View>
       <View style={{ position: 'relative' }}>
-        <View style={{position: 'absolute'}}>
+        <View style={{ position: 'absolute' }}>
           <BackButton />
         </View>
 
-        <Text style={styles.header}>Add Trip</Text>
+        <Text style={styles.header}>{title}</Text>
       </View>
 
       <View style={styles.imgWrapper}>
-        <Image style={{ width: 288, height: 288 }} source={require('../../assets/4.png')} />
+        <Image style={{ width: 288, height: 288 }} source={imageBanner} />
       </View>
     </View>
   );
