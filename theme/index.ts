@@ -5,4 +5,5 @@ export const colors = {
   bgWhite: '#fff',
   bgGray700: '#6B7280',
   bgBlue200: '#BFDBFE',
+  textGray400: '#9CA3AF'
 };

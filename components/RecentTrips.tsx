@@ -1,14 +1,25 @@
 import { FlatList, Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { useNavigation } from '@react-navigation/native';
+
 import { colors } from '../theme';
 import { items } from '../constants';
 import { randomImage } from '../utills';
+import { AddExpenseScreenNavigationProp } from '../navigation/types';
+
+import { EmptyList } from './EmptyList';
 
 export function RecentTrips() {
+  const navigation = useNavigation<AddExpenseScreenNavigationProp>();
+
+  const emptyListMessage = 'You haven\'t recorded any trips yet';
+
+  const redirectToAddExpenseScreen = () => navigation.navigate('AddExpense');
+
   return (
     <View>
       <View style={styles.headerBlock}>
         <Text style={styles.headerText}>Recent Trips</Text>
-        <TouchableOpacity style={styles.btn}>
+        <TouchableOpacity style={styles.btn} onPress={redirectToAddExpenseScreen}>
           <Text>Add Trip</Text>
         </TouchableOpacity>
       </View>
@@ -21,6 +32,7 @@ export function RecentTrips() {
           keyExtractor={item => item.id.toString()}
           showsVerticalScrollIndicator={false}
           columnWrapperStyle={styles.columnWrapperStyle}
+          ListEmptyComponent={<EmptyList message={emptyListMessage} />}
           renderItem={({ item }) => {
             const { place, country } = item;
             return (
