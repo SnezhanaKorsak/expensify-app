@@ -6,10 +6,11 @@ import { BackButton } from './BackButton';
 
 type Props = {
   title: string;
+  subtitle?: string;
   imageBanner: ImageSourcePropType;
 }
 
-export function ScreenHeader({ title, imageBanner }: Props) {
+export function ScreenHeader({ title, subtitle, imageBanner }: Props) {
   return (
     <View>
       <View style={{ position: 'relative' }}>
@@ -18,6 +19,8 @@ export function ScreenHeader({ title, imageBanner }: Props) {
         </View>
 
         <Text style={styles.header}>{title}</Text>
+
+        {subtitle && <Text style={styles.subtitle}>{subtitle}</Text>}
       </View>
 
       <View style={styles.imgWrapper}>
@@ -33,6 +36,11 @@ const styles = StyleSheet.create({
     fontSize: 30,
     lineHeight: 36,
     fontWeight: 'bold',
+    textAlign: 'center',
+  },
+  subtitle: {
+    fontSize: 16,
+    lineHeight: 24,
     textAlign: 'center',
   },
   btnBlock: {

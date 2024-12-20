@@ -1,29 +1,58 @@
+import { useNavigation, useRoute } from '@react-navigation/native';
+import { FlatList, View } from 'react-native';
+
+import {
+  AddExpenseScreenNavigationProp,
+  TripExpensesScreenRouteProp
+} from '../navigation/types';
+import { expenseItems } from '../constants';
+
 import { ScreenWrapper } from '../components/ScreenWrapper';
 import { ScreenHeader } from '../components/ScreenHeader';
-import { CardsList } from '../components/CardsList';
 import { BlockHeader } from '../components/BlockHeader';
+import { EmptyList } from '../components/EmptyList';
+import { ExpenseCard } from '../components/ExpenseCard';
+
 
 export function TripExpensesScreen() {
+  const { params } = useRoute<TripExpensesScreenRouteProp>();
+  const navigation = useNavigation<AddExpenseScreenNavigationProp>();
+
+  const { location } = params;
   const emptyListMessage = 'You haven\'t recorded any expenses yet';
 
-  const redirectToTripExpensesScreen = () => {
+  const redirectToAddExpensesScreen = () => {
+    navigation.navigate('AddExpense');
   };
 
   return (
     <ScreenWrapper>
-      <ScreenHeader title="Trip Expenses" imageBanner={require('../assets/7.png')} />
+      <ScreenHeader
+        title={location.place}
+        subtitle={location.country}
+        imageBanner={require('../assets/7.png')}
+      />
 
       <BlockHeader
         title="Expenses"
         buttonTitle="Add Expense"
-        buttonHandler={() => {
-        }}
+        buttonHandler={redirectToAddExpensesScreen}
       />
 
-      <CardsList
-        emptyListMessage={emptyListMessage}
-        redirectHandler={redirectToTripExpensesScreen}
-      />
+      <View style={{ height: 500 }}>
+        <FlatList
+          style={{ marginBottom: 20 }}
+          data={expenseItems}
+          keyExtractor={item => item.id}
+          showsVerticalScrollIndicator={false}
+          ListEmptyComponent={<EmptyList message={emptyListMessage} />}
+          renderItem={({ item }) => {
+            return (
+              <ExpenseCard expenseItem={item} />
+            );
+          }}
+        />
+      </View>
     </ScreenWrapper>
   );
 }

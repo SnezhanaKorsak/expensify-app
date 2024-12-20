@@ -1,12 +1,15 @@
 import { FlatList, Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+
 import { items } from '../constants';
-import { EmptyList } from './EmptyList';
 import { randomImage } from '../utills';
 import { colors } from '../theme';
+import { Location } from '../types';
+
+import { EmptyList } from './EmptyList';
 
 type Props = {
   emptyListMessage: string;
-  redirectHandler: () => void;
+  redirectHandler: (location: Location) => void;
 }
 
 export function CardsList({ emptyListMessage, redirectHandler }: Props) {
@@ -23,7 +26,7 @@ export function CardsList({ emptyListMessage, redirectHandler }: Props) {
         renderItem={({ item }) => {
           const { place, country } = item;
           return (
-            <TouchableOpacity style={styles.placeContainer} onPress={redirectHandler}>
+            <TouchableOpacity style={styles.placeContainer} onPress={() => redirectHandler(item)}>
               <View>
                 <Image source={randomImage()} style={styles.placeImage} />
                 <Text style={styles.label}>{place}</Text>

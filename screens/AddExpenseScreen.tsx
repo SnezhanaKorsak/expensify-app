@@ -1,10 +1,12 @@
 import { ScreenWrapper } from '../components/ScreenWrapper';
-import { AddExpense } from '../components/add-expenses/AddExpense';
+import { View, Text } from 'react-native';
 
 export function AddExpenseScreen() {
   return (
     <ScreenWrapper>
-      <AddExpense />
+      <View>
+        <Text>AddExpenseScreen</Text>
+      </View>
     </ScreenWrapper>
   );
 }
