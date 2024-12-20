@@ -27,10 +27,7 @@ export function AddTrip() {
     }
   };
 
-  const changePlaceHandler = (value: string) => {
-    setPlace(value);
-
-  };
+  const changePlaceHandler = (value: string) => setPlace(value);
   const changeCountryHandler = (value: string) => setCountry(value);
 
   return (

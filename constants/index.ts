@@ -22,7 +22,7 @@ export const items: Location[] = [
     country: 'Russia',
   },
 
-]
+];
 
 export const expenseItems: ExpenseItem[] = [
   {
@@ -49,4 +49,6 @@ export const expenseItems: ExpenseItem[] = [
     amount: 35,
     category: 'other'
   },
-]
+];
+
+export const categories = ['food', 'commute', 'shopping', 'entertainment', 'other'];
