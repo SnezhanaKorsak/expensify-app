@@ -69,13 +69,15 @@ const styles = StyleSheet.create({
     fontSize: 20,
     lineHeight: 28,
     fontWeight: 'bold',
+    maxWidth: 144,
   },
   placeImage: {
-    width: 144,
-    height: 144,
+    maxWidth: 144,
+    height: 124,
     marginRight: 8,
   },
   placeContainer: {
+    width: '46%',
     backgroundColor: colors.bgWhite,
     borderRadius: 15,
     padding: 12,

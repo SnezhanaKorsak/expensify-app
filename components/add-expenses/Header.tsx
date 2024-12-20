@@ -8,7 +8,7 @@ export function Header() {
   return (
     <View>
       <View style={{ position: 'relative' }}>
-        <View style={styles.btnBlock}>
+        <View style={{position: 'absolute'}}>
           <BackButton />
         </View>
 
