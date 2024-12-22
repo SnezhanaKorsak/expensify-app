@@ -1,6 +1,9 @@
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
+import { useAppSelector } from '../hooks';
+import { userSelector } from '../store/user/selectors';
+
 import { HomeScreen } from '../screens/HomeScreen';
 import { AddExpenseScreen } from '../screens/AddExpenseScreen';
 import { TripExpensesScreen } from '../screens/TripExpensesScreen';
@@ -23,16 +26,27 @@ export type RootStackParamList = {
 const Stack = createNativeStackNavigator<RootStackParamList>();
 
 export default function AppNavigation() {
+  const user = useAppSelector(userSelector);
+
+  if(user) {
+    return (
+      <NavigationContainer>
+        <Stack.Navigator initialRouteName="Home">
+          <Stack.Screen name="Home" component={HomeScreen} options={{ headerShown: false }} />
+          <Stack.Screen name="AddExpense" component={AddExpenseScreen} options={{ headerShown: false }} />
+          <Stack.Screen name="AddTrip" component={AddTripScreen} options={{ headerShown: false }} />
+          <Stack.Screen name="TripExpenses" component={TripExpensesScreen} options={{ headerShown: false }} />
+        </Stack.Navigator>
+      </NavigationContainer>
+    );
+  }
+
   return (
     <NavigationContainer>
       <Stack.Navigator initialRouteName="Welcome">
         <Stack.Screen name="Welcome" component={WelcomeScreen} options={{ headerShown: false }} />
         <Stack.Screen name="SignIn" component={SignInScreen} options={{ headerShown: false }} />
         <Stack.Screen name="SignUp" component={SignUpScreen} options={{ headerShown: false }} />
-        <Stack.Screen name="Home" component={HomeScreen} options={{ headerShown: false }} />
-        <Stack.Screen name="AddExpense" component={AddExpenseScreen} options={{ headerShown: false }} />
-        <Stack.Screen name="AddTrip" component={AddTripScreen} options={{ headerShown: false }} />
-        <Stack.Screen name="TripExpenses" component={TripExpensesScreen} options={{ headerShown: false }} />
       </Stack.Navigator>
     </NavigationContainer>
   );

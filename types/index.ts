@@ -10,3 +10,8 @@ export type Location = {
   place: string;
   country: string;
 }
+
+export type User = {
+  id: string,
+  name: string,
+}
