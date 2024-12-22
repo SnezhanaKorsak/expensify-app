@@ -1,10 +1,7 @@
 import { View } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 
-import {
-  AddTripScreenNavigationProp,
-  TripExpensesScreenNavigationProp
-} from '../navigation/types';
+import { TripExpensesScreenNavigationProp } from '../navigation/types';
 
 import { CardsList } from './CardsList';
 import { BlockHeader } from './BlockHeader';
@@ -12,7 +9,7 @@ import { Location } from '../types';
 
 export function RecentTrips() {
   const navigation =
-    useNavigation<AddTripScreenNavigationProp | TripExpensesScreenNavigationProp>();
+    useNavigation<TripExpensesScreenNavigationProp>();
 
   const emptyListMessage = 'You haven\'t recorded any trips yet';
 

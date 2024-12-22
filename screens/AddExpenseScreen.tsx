@@ -12,13 +12,13 @@ import {
 
 import { colors } from '../theme';
 import { categories } from '../constants';
-import { HomeScreenNavigationProp } from '../navigation/types';
+import { NavigationProp } from '../navigation/types';
 
 import { ScreenWrapper } from '../components/ScreenWrapper';
 import { ScreenHeader } from '../components/ScreenHeader';
 
 export function AddExpenseScreen() {
-  const navigation = useNavigation<HomeScreenNavigationProp>();
+  const navigation = useNavigation<NavigationProp>();
 
   const [title, setTitle] = useState('');
   const [amount, setAmount] = useState('');

@@ -2,7 +2,7 @@ import { useNavigation, useRoute } from '@react-navigation/native';
 import { FlatList, View } from 'react-native';
 
 import {
-  AddExpenseScreenNavigationProp,
+  NavigationProp,
   TripExpensesScreenRouteProp
 } from '../navigation/types';
 import { expenseItems } from '../constants';
@@ -16,7 +16,7 @@ import { ExpenseCard } from '../components/ExpenseCard';
 
 export function TripExpensesScreen() {
   const { params } = useRoute<TripExpensesScreenRouteProp>();
-  const navigation = useNavigation<AddExpenseScreenNavigationProp>();
+  const navigation = useNavigation<NavigationProp>();
 
   const { location } = params;
   const emptyListMessage = 'You haven\'t recorded any expenses yet';

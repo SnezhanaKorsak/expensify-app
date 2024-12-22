@@ -11,12 +11,12 @@ import {
 import { useNavigation } from '@react-navigation/native';
 
 import { colors } from '../theme';
-import { HomeScreenNavigationProp } from '../navigation/types';
+import { NavigationProp } from '../navigation/types';
 
 import { ScreenHeader } from './ScreenHeader';
 
 export function AddTrip() {
-  const navigation = useNavigation<HomeScreenNavigationProp>();
+  const navigation = useNavigation<NavigationProp>();
 
   const [place, setPlace] = useState('');
   const [country, setCountry] = useState('');
@@ -49,7 +49,6 @@ export function AddTrip() {
           </TouchableOpacity>
         </View>
       </KeyboardAvoidingView>
-
     </ScrollView>
   );
 }

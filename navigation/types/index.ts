@@ -3,8 +3,7 @@ import { RouteProp } from '@react-navigation/native';
 
 import { RootStackParamList } from '../AppNavigation';
 
-export type HomeScreenNavigationProp = NativeStackNavigationProp<RootStackParamList, 'Home'>;
-export type AddExpenseScreenNavigationProp = NativeStackNavigationProp<RootStackParamList, 'AddExpense'>;
+export type NavigationProp = NativeStackNavigationProp<RootStackParamList>;
 export type AddTripScreenNavigationProp = NativeStackNavigationProp<RootStackParamList, 'AddTrip'>;
 export type TripExpensesScreenNavigationProp = NativeStackNavigationProp<RootStackParamList, 'TripExpenses'>;
 
