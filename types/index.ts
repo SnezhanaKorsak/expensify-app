@@ -1,3 +1,5 @@
+import { User as FirebaseUser } from 'firebase/auth';
+
 export type ExpenseItem = {
   id: string,
   title: string,
@@ -11,7 +13,5 @@ export type Location = {
   country: string;
 }
 
-export type User = {
-  id: string,
-  name: string,
-}
+
+export type User = FirebaseUser;

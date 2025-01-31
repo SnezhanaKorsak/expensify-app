@@ -1,17 +1,21 @@
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import { onAuthStateChanged, User } from 'firebase/auth';
 
-import { useAppSelector } from '../hooks';
+import { useAppDispatch, useAppSelector } from '../hooks/use-store';
 import { userSelector } from '../store/user/selectors';
+
+import { auth } from '../config/firebase';
+import { Location } from '../types';
 
 import { HomeScreen } from '../screens/HomeScreen';
 import { AddExpenseScreen } from '../screens/AddExpenseScreen';
 import { TripExpensesScreen } from '../screens/TripExpensesScreen';
-import { Location } from '../types';
 import { AddTripScreen } from '../screens/AddTripScreen';
 import { WelcomeScreen } from '../screens/WelcomeScreen';
 import { SignInScreen } from '../screens/SignInScreen';
 import { SignUpScreen } from '../screens/SignUpScreen';
+import { setUser } from '../store/user/slice';
 
 export type RootStackParamList = {
   Welcome: undefined;
@@ -26,9 +30,14 @@ export type RootStackParamList = {
 const Stack = createNativeStackNavigator<RootStackParamList>();
 
 export default function AppNavigation() {
+  const dispatch = useAppDispatch();
   const user = useAppSelector(userSelector);
 
-  if(user) {
+  onAuthStateChanged(auth, authUser => {
+    dispatch(setUser({ user: authUser }));
+  });
+
+  if (user) {
     return (
       <NavigationContainer>
         <Stack.Navigator initialRouteName="Home">

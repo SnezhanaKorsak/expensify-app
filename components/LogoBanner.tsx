@@ -1,12 +1,20 @@
 import { Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { signOut } from 'firebase/auth';
+
+import { auth } from '../config/firebase';
 import { colors } from '../theme';
 
 export function LogoBanner() {
+
+  const handleLogout = async () => {
+    await signOut(auth);
+  };
+
   return (
     <View>
       <View style={styles.logoBlock}>
         <Text style={styles.logo}>Expensify</Text>
-        <TouchableOpacity style={styles.logoutBtn}>
+        <TouchableOpacity style={styles.logoutBtn} onPress={handleLogout}>
           <Text>Logout</Text>
         </TouchableOpacity>
       </View>

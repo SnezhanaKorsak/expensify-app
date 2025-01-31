@@ -1,3 +1,5 @@
 import type { RootState } from '..';
 
-export const userSelector = (state: RootState) => state.user;
+export const userSelector = (state: RootState) => state.user.user;
+
+export const userLoadingSelector = (state: RootState) => state.user.loading;

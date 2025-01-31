@@ -1,5 +1,4 @@
 import { useState } from 'react';
-import { useNavigation } from '@react-navigation/native';
 import {
   View,
   Text,
@@ -11,10 +10,12 @@ import {
   ImageSourcePropType
 } from 'react-native';
 
-import { NavigationProp } from '../navigation/types';
 import { colors } from '../theme';
 
 import { ScreenHeader } from './ScreenHeader';
+import { useAuthMethod } from '../hooks/use-auth-method';
+import { useAppSelector } from '../hooks/use-store';
+import { userLoadingSelector } from '../store/user/selectors';
 
 type Props = {
   title: string;
@@ -22,19 +23,19 @@ type Props = {
 }
 
 export function Login({ title, bannerImage }: Props) {
-  const navigation = useNavigation<NavigationProp>();
-
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
-  const handleSubmit = () => {
-    if (email && password) {
-      navigation.navigate('Home');
-    }
-  };
+  const userLoading = useAppSelector(userLoadingSelector);
+
+  const isSignedIn = title === 'Sign In';
+
+  const { handleSubmit } = useAuthMethod({ email, password, isSignedIn });
 
   const changeEmailHandler = (value: string) => setEmail(value);
   const changePasswordHandler = (value: string) => setPassword(value);
+
+  console.log(userLoading);
 
   return (
     <ScrollView>

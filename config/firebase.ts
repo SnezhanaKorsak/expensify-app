@@ -2,16 +2,21 @@ import { initializeApp } from 'firebase/app';
 import { getFirestore, collection } from 'firebase/firestore';
 import { getAuth } from 'firebase/auth';
 
+import {
+  API_AUTH_KEY, API_AUTH_DOMAIN, AUTH_APP_ID, AUTH_STORAGE_BUCKET, AUTH_PROJECT_ID,
+  AUTH_MESSAGING_SENDER_ID
+} from '@env';
+
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
 
 const firebaseConfig = {
-  apiKey: 'AIzaSyDyFRB4EskeYD9zxHI6kwvnQ6BwpTcCNKM',
-  authDomain: 'expensify-5b073.firebaseapp.com',
-  projectId: 'expensify-5b073',
-  storageBucket: 'expensify-5b073.firebasestorage.app',
-  messagingSenderId: '719400807119',
-  appId: '1:719400807119:web:77d4a54fe57991db73e5ba'
+  apiKey: API_AUTH_KEY,
+  authDomain: API_AUTH_DOMAIN,
+  projectId: AUTH_PROJECT_ID,
+  storageBucket: AUTH_STORAGE_BUCKET,
+  messagingSenderId: AUTH_MESSAGING_SENDER_ID,
+  appId: AUTH_APP_ID,
 };
 
 const app = initializeApp(firebaseConfig);

@@ -7,7 +7,8 @@ export const colors = {
   bgBlue200: '#BFDBFE',
   textGray400: '#9CA3AF',
   bgRed300: '#FCA5A5',
-  bgGreen200: '#BBF7D0'
+  bgGreen200: '#BBF7D0',
+  bgRed500: '#EF4444',
 };
 
 export const categoryBG: {[key: string]: string} = {
