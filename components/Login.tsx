@@ -12,10 +12,12 @@ import {
 
 import { colors } from '../theme';
 
-import { ScreenHeader } from './ScreenHeader';
 import { useAuthMethod } from '../hooks/use-auth-method';
 import { useAppSelector } from '../hooks/use-store';
 import { userLoadingSelector } from '../store/user/selectors';
+
+import { ScreenHeader } from './ScreenHeader';
+import { Loading } from './Loading';
 
 type Props = {
   title: string;
@@ -35,8 +37,6 @@ export function Login({ title, bannerImage }: Props) {
   const changeEmailHandler = (value: string) => setEmail(value);
   const changePasswordHandler = (value: string) => setPassword(value);
 
-  console.log(userLoading);
-
   return (
     <ScrollView>
       <KeyboardAvoidingView behavior="position">
@@ -51,9 +51,13 @@ export function Login({ title, bannerImage }: Props) {
         </View>
 
         <View>
-          <TouchableOpacity style={styles.btn} onPress={handleSubmit}>
-            <Text style={[styles.label, { textAlign: 'center' }]}>{title}</Text>
-          </TouchableOpacity>
+          {userLoading ? (
+            <Loading />
+          ) : (
+            <TouchableOpacity style={styles.btn} onPress={handleSubmit}>
+              <Text style={[styles.label, { textAlign: 'center' }]}>{title}</Text>
+            </TouchableOpacity>
+          )}
         </View>
       </KeyboardAvoidingView>
     </ScrollView>
