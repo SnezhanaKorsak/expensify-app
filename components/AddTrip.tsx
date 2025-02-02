@@ -10,20 +10,54 @@ import {
 } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 
+import { addDoc } from 'firebase/firestore';
+import { FirebaseError } from 'firebase/app';
+
 import { colors } from '../theme';
 import { NavigationProp } from '../navigation/types';
+import { tripsRef } from '../config/firebase';
+import { userSelector } from '../store/user/selectors';
+import { useAppSelector } from '../hooks/use-store';
+import { useToastError } from '../hooks/use-toast-error';
 
 import { ScreenHeader } from './ScreenHeader';
+import { Loading } from './Loading';
 
 export function AddTrip() {
   const navigation = useNavigation<NavigationProp>();
 
+  const user = useAppSelector(userSelector);
+
   const [place, setPlace] = useState('');
   const [country, setCountry] = useState('');
+  const [loading, setLoading] = useState(false);
 
-  const handleAddTrip = () => {
-    if (place && country) {
-      navigation.navigate('Home');
+  const handleAddTrip = async () => {
+    if (!place || !country) {
+      useToastError('Place and country are required');
+      return;
+    }
+
+    try {
+      setLoading(true);
+
+      let doc = await addDoc(tripsRef, {
+        place,
+        country,
+        userId: user?.uid,
+      });
+
+      setLoading(false);
+
+      if (doc && doc.id) {
+        navigation.goBack();
+      }
+    } catch (error: unknown) {
+      setLoading(false);
+
+      const errorMessage =
+        error instanceof FirebaseError ? error.message : 'Something went wrong';
+      useToastError('Authentication failed', errorMessage);
     }
   };
 
@@ -44,9 +78,14 @@ export function AddTrip() {
         </View>
 
         <View>
-          <TouchableOpacity style={styles.btn} onPress={handleAddTrip}>
-            <Text style={[styles.label, { textAlign: 'center' }]}>Add Trip</Text>
-          </TouchableOpacity>
+          {loading ? (
+              <Loading />
+            )
+            : (
+              <TouchableOpacity style={styles.btn} onPress={handleAddTrip}>
+                <Text style={[styles.label, { textAlign: 'center' }]}>Add Trip</Text>
+              </TouchableOpacity>
+            )}
         </View>
       </KeyboardAvoidingView>
     </ScrollView>
