@@ -11,6 +11,7 @@ export type Location = {
   id: string;
   place: string;
   country: string;
+  userId: string;
 }
 
 

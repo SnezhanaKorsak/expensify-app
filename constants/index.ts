@@ -1,28 +1,4 @@
-import { ExpenseItem, Location } from '../types';
-
-export const items: Location[] = [
-  {
-    id: '1',
-    place: 'Minsk',
-    country: 'Belarus',
-  },
-  {
-    id: '2',
-    place: 'Vitebsk',
-    country: 'Belarus',
-  },
-  {
-    id: '3',
-    place: 'Moscow',
-    country: 'Russia',
-  },
-  {
-    id: '4',
-    place: 'Saint Petersburg',
-    country: 'Russia',
-  },
-
-];
+import { ExpenseItem } from '../types';
 
 export const expenseItems: ExpenseItem[] = [
   {

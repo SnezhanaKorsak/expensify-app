@@ -1,20 +1,37 @@
+import { useEffect } from 'react';
+import { useIsFocused, useNavigation } from '@react-navigation/native';
 import { View } from 'react-native';
-import { useNavigation } from '@react-navigation/native';
 
 import { TripExpensesScreenNavigationProp } from '../navigation/types';
 
-import { CardsList } from './CardsList';
-import { BlockHeader } from './BlockHeader';
+import { useAppDispatch, useAppSelector } from '../hooks/use-store';
+import { userSelector } from '../store/user/selectors';
+import { fetchTrips } from '../store/trips/thunk';
 import { Location } from '../types';
 
+import { CardsList } from './CardsList';
+import { BlockHeader } from './BlockHeader';
+
 export function RecentTrips() {
+  const dispatch = useAppDispatch();
+  const isFocused = useIsFocused();
+
   const navigation =
     useNavigation<TripExpensesScreenNavigationProp>();
+
+  const user = useAppSelector(userSelector);
 
   const emptyListMessage = 'You haven\'t recorded any trips yet';
 
   const redirectToAddExpenseScreen = () => navigation.navigate('AddTrip');
-  const redirectToTripExpensesScreen = (location: Location) => navigation.navigate('TripExpenses', { location });
+  const redirectToTripExpensesScreen = (location: Location) =>
+    navigation.navigate('TripExpenses', { location });
+
+  useEffect(() => {
+    if (user && isFocused) {
+      dispatch(fetchTrips(user.uid));
+    }
+  }, [isFocused]);
 
   return (
     <View>

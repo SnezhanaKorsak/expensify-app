@@ -1,11 +1,15 @@
 import { FlatList, Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 
-import { items } from '../constants';
 import { randomImage } from '../utills';
 import { colors } from '../theme';
 import { Location } from '../types';
 
+import { useAppSelector } from '../hooks/use-store';
+import { tripsProcessSelector, tripsSelector } from '../store/trips/selectors';
+import { useToastError } from '../hooks/use-toast-error';
+
 import { EmptyList } from './EmptyList';
+import { Loading } from './Loading';
 
 type Props = {
   emptyListMessage: string;
@@ -13,29 +17,41 @@ type Props = {
 }
 
 export function CardsList({ emptyListMessage, redirectHandler }: Props) {
+  const trips = useAppSelector(tripsSelector);
+  const { loading, error } = useAppSelector(tripsProcessSelector);
+
+  if (error && error.message) {
+    useToastError('Error', error.message);
+    return;
+  }
+
   return (
     <View style={{ height: 500 }}>
-      <FlatList
-        style={{ marginBottom: 20 }}
-        data={items}
-        numColumns={2}
-        keyExtractor={item => item.id.toString()}
-        showsVerticalScrollIndicator={false}
-        columnWrapperStyle={styles.columnWrapperStyle}
-        ListEmptyComponent={<EmptyList message={emptyListMessage} />}
-        renderItem={({ item }) => {
-          const { place, country } = item;
-          return (
-            <TouchableOpacity style={styles.placeContainer} onPress={() => redirectHandler(item)}>
-              <View>
-                <Image source={randomImage()} style={styles.placeImage} />
-                <Text style={styles.label}>{place}</Text>
-                <Text>{country}</Text>
-              </View>
-            </TouchableOpacity>
-          );
-        }}
-      />
+      {loading ? (
+        <Loading />
+      ) : (
+        <FlatList
+          style={{ marginBottom: 20 }}
+          data={trips}
+          numColumns={2}
+          keyExtractor={item => item.id.toString()}
+          showsVerticalScrollIndicator={false}
+          columnWrapperStyle={styles.columnWrapperStyle}
+          ListEmptyComponent={<EmptyList message={emptyListMessage} />}
+          renderItem={({ item }) => {
+            const { place, country } = item;
+            return (
+              <TouchableOpacity style={styles.placeContainer} onPress={() => redirectHandler(item)}>
+                <View>
+                  <Image source={randomImage()} style={styles.placeImage} />
+                  <Text style={styles.label}>{place}</Text>
+                  <Text>{country}</Text>
+                </View>
+              </TouchableOpacity>
+            );
+          }}
+        />
+      )}
     </View>
   );
 }
