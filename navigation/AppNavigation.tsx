@@ -23,8 +23,8 @@ export type RootStackParamList = {
   SignUp: undefined;
   Home: undefined;
   AddTrip: undefined;
-  TripExpenses: { location: Location };
-  AddExpense: undefined;
+  TripExpenses: { location: Omit<Location, 'userId'> };
+  AddExpense: { location: Omit<Location, 'userId'> };
 };
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
@@ -42,9 +42,11 @@ export default function AppNavigation() {
       <NavigationContainer>
         <Stack.Navigator initialRouteName="Home">
           <Stack.Screen name="Home" component={HomeScreen} options={{ headerShown: false }} />
-          <Stack.Screen name="AddExpense" component={AddExpenseScreen} options={{ headerShown: false }} />
+          <Stack.Screen name="AddExpense" component={AddExpenseScreen}
+                        options={{ headerShown: false }} />
           <Stack.Screen name="AddTrip" component={AddTripScreen} options={{ headerShown: false }} />
-          <Stack.Screen name="TripExpenses" component={TripExpensesScreen} options={{ headerShown: false }} />
+          <Stack.Screen name="TripExpenses" component={TripExpensesScreen}
+                        options={{ headerShown: false }} />
         </Stack.Navigator>
       </NavigationContainer>
     );

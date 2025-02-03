@@ -2,7 +2,7 @@ import { useEffect } from 'react';
 import { useIsFocused, useNavigation } from '@react-navigation/native';
 import { View } from 'react-native';
 
-import { TripExpensesScreenNavigationProp } from '../navigation/types';
+import { AddTripScreenNavigationProp, TripExpensesScreenNavigationProp } from '../navigation/types';
 
 import { useAppDispatch, useAppSelector } from '../hooks/use-store';
 import { userSelector } from '../store/user/selectors';
@@ -17,14 +17,14 @@ export function RecentTrips() {
   const isFocused = useIsFocused();
 
   const navigation =
-    useNavigation<TripExpensesScreenNavigationProp>();
+    useNavigation<TripExpensesScreenNavigationProp | AddTripScreenNavigationProp>();
 
   const user = useAppSelector(userSelector);
 
   const emptyListMessage = 'You haven\'t recorded any trips yet';
 
   const redirectToAddExpenseScreen = () => navigation.navigate('AddTrip');
-  const redirectToTripExpensesScreen = (location: Location) =>
+  const redirectToTripExpensesScreen = (location: Omit<Location, 'userId'>) =>
     navigation.navigate('TripExpenses', { location });
 
   useEffect(() => {

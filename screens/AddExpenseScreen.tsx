@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { useNavigation } from '@react-navigation/native';
+import { useNavigation, useRoute } from '@react-navigation/native';
 import {
   View,
   Text,
@@ -12,21 +12,55 @@ import {
 
 import { colors } from '../theme';
 import { categories } from '../constants';
-import { NavigationProp } from '../navigation/types';
+import {
+  AddExpenseScreenRouteProp,
+  NavigationProp,
+} from '../navigation/types';
 
 import { ScreenWrapper } from '../components/ScreenWrapper';
 import { ScreenHeader } from '../components/ScreenHeader';
+import { useToastError } from '../hooks/use-toast-error';
+import { addDoc } from 'firebase/firestore';
+import { expensesRef } from '../config/firebase';
+import { FirebaseError } from 'firebase/app';
+import { Loading } from '../components/Loading';
 
 export function AddExpenseScreen() {
   const navigation = useNavigation<NavigationProp>();
+  const { params } = useRoute<AddExpenseScreenRouteProp>();
 
   const [title, setTitle] = useState('');
   const [amount, setAmount] = useState('');
   const [category, setCategory] = useState('');
+  const [loading, setLoading] = useState(false);
 
-  const handleAddExpense = () => {
-    if (title && amount && category) {
-      navigation.goBack();
+  const handleAddExpense = async () => {
+    if (!title || !amount || !category) {
+      useToastError('Please fill in all fields!');
+      return;
+    }
+
+    try {
+      setLoading(true);
+
+      let doc = await addDoc(expensesRef, {
+        title,
+        amount,
+        category,
+        tripId: params.location.id,
+      });
+
+      setLoading(false);
+
+      if (doc && doc.id) {
+        navigation.goBack();
+      }
+    } catch (error: unknown) {
+      setLoading(false);
+
+      const errorMessage =
+        error instanceof FirebaseError ? error.message : 'Something went wrong';
+      useToastError('Authentication failed', errorMessage);
     }
   };
 
@@ -39,7 +73,8 @@ export function AddExpenseScreen() {
       <ScrollView>
         <KeyboardAvoidingView behavior="position">
           <View>
-            <ScreenHeader title="Add Expense" imageBanner={require('../assets/expenseBanner.png')} />
+            <ScreenHeader title="Add Expense"
+                          imageBanner={require('../assets/expenseBanner.png')} />
             <View>
               <Text style={styles.label}>For what?</Text>
               <TextInput style={styles.input} value={title} onChangeText={changeTileHandler} />
@@ -69,9 +104,13 @@ export function AddExpenseScreen() {
           </View>
 
           <View>
-            <TouchableOpacity style={styles.btn} onPress={handleAddExpense}>
-              <Text style={[styles.label, { textAlign: 'center' }]}>Add Expense</Text>
-            </TouchableOpacity>
+            {loading ? (
+              <Loading />
+            ) : (
+              <TouchableOpacity style={styles.btn} onPress={handleAddExpense}>
+                <Text style={[styles.label, { textAlign: 'center' }]}>Add Expense</Text>
+              </TouchableOpacity>
+            )}
           </View>
         </KeyboardAvoidingView>
 

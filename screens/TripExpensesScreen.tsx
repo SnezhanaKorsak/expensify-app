@@ -22,7 +22,7 @@ export function TripExpensesScreen() {
   const emptyListMessage = 'You haven\'t recorded any expenses yet';
 
   const redirectToAddExpensesScreen = () => {
-    navigation.navigate('AddExpense');
+    navigation.navigate('AddExpense', { location });
   };
 
   return (

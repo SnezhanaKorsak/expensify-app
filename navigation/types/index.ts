@@ -8,3 +8,4 @@ export type AddTripScreenNavigationProp = NativeStackNavigationProp<RootStackPar
 export type TripExpensesScreenNavigationProp = NativeStackNavigationProp<RootStackParamList, 'TripExpenses'>;
 
 export type TripExpensesScreenRouteProp = RouteProp<RootStackParamList, 'TripExpenses'>;
+export type AddExpenseScreenRouteProp = RouteProp<RootStackParamList, 'AddExpense'>;

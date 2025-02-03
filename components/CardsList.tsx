@@ -13,7 +13,7 @@ import { Loading } from './Loading';
 
 type Props = {
   emptyListMessage: string;
-  redirectHandler: (location: Location) => void;
+  redirectHandler: (location: Omit<Location, 'userId'>) => void;
 }
 
 export function CardsList({ emptyListMessage, redirectHandler }: Props) {
