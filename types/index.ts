@@ -5,6 +5,7 @@ export type ExpenseItem = {
   title: string,
   amount: number,
   category: string,
+  tripId: string;
 }
 
 export type Location = {
